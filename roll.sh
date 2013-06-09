@@ -23,15 +23,6 @@ grey="\033[0;90m"
 underline="$( tput sgr 0 1 )"
 nullcolor="tput sgr0"
 
-# How do we use this damn thing?
-usage() {
-     # Rolla boy tell 'em
-     echo "Usage: $0 {roll modifier}d{number of sides to die}"
-     echo "eg. $0 3d20"
-     echo
-     exit 0
-
-}
 
 # Color echo function. Makes things a little easier
 ecol() {
@@ -39,6 +30,16 @@ ecol() {
 	shift
 	printf "$@"
 	$nullcolor
+}
+
+# How do we use this damn thing?
+usage() {
+     # Rolla boy tell 'em
+     printf "Usage: $0 "
+     ecol $yellow "3"
+     ecol $purple "d20"
+     echo
+     exit 0
 }
 
 # This is our rolling function
@@ -78,7 +79,7 @@ roll() {
 # Are we rolling in the right format?
 case $1 in
      # If we receive input in the format of ./roll NxN, ./roll NNxN, or ./roll NxNN, break up the roll modifier and test for damage modifiers.
-     [1-9]d[0-9]|[1-9][0-9]d[0-9]|[1-9]d[0-9][0-9]|[1-9]d[0-9][0-9][0-9]|[1-9][0-9]d[0-9][0-9]|[1-9][0-9]d[0-9][0-9][0-9]) roll "${1%d*}" "${1##*d}" ;;
+     [1-9]d[1-9]|[1-9][0-9]d[1-9]|[1-9]d[1-9][0-9]|[1-9]d[1-9][0-9][0-9]|[1-9][0-9]d[1-9][0-9]|[1-9][0-9]d[1-9][0-9][0-9]) roll "${1%d*}" "${1##*d}" ;;
      # ./roll d20 is OK too.
      d[1-9]|d[1-9][0-9]|d[1-9][0-9][0-9]) roll 1 "${1##*d}" ;;
      # as is ./roll 5.
