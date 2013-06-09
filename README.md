@@ -11,6 +11,5 @@ roll NdNN
 
 ### Usage:
 
-	$ roll 2d20
-	* 2d20: 13 10
- 	< Total: 23 >
+	$ ./roll.sh 3d20
+	* 3d20: 44. (7 18 19)
