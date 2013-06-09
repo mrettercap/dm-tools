@@ -36,12 +36,11 @@ roll() {
   done
 
   # Print the number of sides to the die as well as the dice modifier.
-  printf "* \033[0;32m${MF}\033[0;31md$DIE\033[1;34m: "
+  printf "* \033[0;93m${MF}\033[0;95md$DIE\033[1;34m: "
 
   # If we're rolling multiple dice, print the individual rolls along with the total. Otherwise, just print the total.
-  [[ "$1" -gt 1 ]] && echo -e "\033[1;36m${ROLLS[@]} \n\033[0;30m\033[42m < Total: $ROLL > \033[00m" || echo -e "\033[1;36m$ROLL\033[1;34m."
+  [[ "$1" -gt 1 ]] && echo -e "\033[00m${ROLLS[@]} \033[1;37m\033[104m Total: $ROLL \033[00m" || echo -e "\033[00m$ROLL\033[1;34m."
 
-  echo
 
 }
 
