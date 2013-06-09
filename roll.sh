@@ -3,8 +3,8 @@
 # Dice roller for Tabletops.
 # by Benjamin Ford
 
-# Syntax: roll {sides to die} {damage modifier} 
-#     eg: roll 3d20 +4
+# Syntax: roll {die modifier} {sides to die}  
+#     eg: roll 3d20 
 
 # First arg: number of sides to the die!
 DIE=$1
