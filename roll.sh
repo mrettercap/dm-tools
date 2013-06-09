@@ -6,9 +6,6 @@
 # Syntax: roll {die modifier} {sides to die}  
 #     eg: roll 3d20 
 
-# First arg: number of sides to the die!
-DIE=$1
-
 # How do we use this damn thing?
 usage() {
      # Rolla boy tell 'em
@@ -36,20 +33,24 @@ roll() {
   done
 
   # Print the number of sides to the die as well as the dice modifier.
-  printf "* \033[0;93m${MF}\033[0;95md$DIE\033[1;34m: "
+  printf "* \033[0;93m$1\033[0;95md$2\033[1;34m:\033[00m "
 
-  # If we're rolling multiple dice, print the individual rolls along with the total. Otherwise, just print the total.
-  [[ "$1" -gt 1 ]] && echo -e "\033[00m${ROLLS[@]} \033[1;37m\033[104m Total: $ROLL \033[00m" || echo -e "\033[00m$ROLL\033[1;34m."
-
+  # Print the outcome of the dice roll(s).
+  printf  "\033[00m$ROLL\033[00m\033[1;34m.\033[00m" 
+  
+  # If it's a multi-roll, show our working!
+  [[ "$1" -gt 1 ]] && echo -e " \033[0;90m(${ROLLS[@]})\033[00m" || echo
 
 }
 
 # Are we rolling in the right format?
-case $DIE in
+case $1 in
      # If we receive input in the format of ./roll NxN, ./roll NNxN, or ./roll NxNN, break up the roll modifier and test for damage modifiers.
-     [1-9]d[0-9]|[1-9][0-9]d[0-9]|[1-9]d[0-9][0-9]|[1-9]d[0-9][0-9][0-9]|[1-9][0-9]d[0-9][0-9]|[1-9][0-9]d[0-9][0-9][0-9]) MF=${DIE%d*}; DIE=${DIE##*d}; roll "$MF" "$DIE" ;;
-     d[1-9]|d[1-9][0-9]|d[1-9][0-9][0-9]) DIE=${DIE##*d}; roll 1 "$DIE" ;;
+     [1-9]d[0-9]|[1-9][0-9]d[0-9]|[1-9]d[0-9][0-9]|[1-9]d[0-9][0-9][0-9]|[1-9][0-9]d[0-9][0-9]|[1-9][0-9]d[0-9][0-9][0-9]) roll "${1%d*}" "${1##*d}" ;;
+     # ./roll d20 is OK too.
+     d[1-9]|d[1-9][0-9]|d[1-9][0-9][0-9]) roll 1 "${1##*d}" ;;
+     # as is ./roll 5.
      [1-9]|[1-9][0-9]|[1-9][0-9][0-9]) roll 1 $1 ;;
-     # If we get some other crazy input, show 'em the usage. 
+     # If we get some other crazy input, though, show 'em the usage. 
      *) usage ;;
 esac
