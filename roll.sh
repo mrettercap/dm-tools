@@ -1,10 +1,27 @@
 #!/bin/bash 
 
-# Dice roller for Tabletops.
-# by Benjamin Ford
+########################################
+#				       # 
+#   ROLL.SH // Dice Roll Script.       #
+#   --------------------------------   #
+#   For DMs. Part of dm-tools suite.   #
+#        by Benjamin M. Ford           #
+#   				       #
+#   + Jun 2013			       #
+#				       #
+########################################
 
 # Syntax: roll {die modifier} {sides to die}  
 #     eg: roll 3d20 
+
+
+# Store the colors in variables for easy printing.
+yellow="\033[0;93m"
+purple="\033[0;95m"
+blue="\033[1;34m"
+grey="\033[0;90m"
+underline="$( tput sgr 0 1 )"
+nullcolor="tput sgr0"
 
 # How do we use this damn thing?
 usage() {
@@ -14,6 +31,14 @@ usage() {
      echo
      exit 0
 
+}
+
+# Color echo function. Makes things a little easier
+ecol() {
+	printf "$1"
+	shift
+	printf "$@"
+	$nullcolor
 }
 
 # This is our rolling function
@@ -32,14 +57,21 @@ roll() {
      let ROLL=$[ $ROLL + $rnum ]
   done
 
-  # Print the number of sides to the die as well as the dice modifier.
-  printf "* \033[0;93m$1\033[0;95md$2\033[1;34m:\033[00m "
+  # Start printing...
+  printf "* " 
 
-  # Print the outcome of the dice roll(s).
-  printf  "\033[00m$ROLL\033[00m\033[1;34m.\033[00m" 
+  # Printing colors
+  ecol $yellow "$1" 			# 3
+  ecol $purple "d$2"			#  d20
+  ecol $blue ": "			#     :
+  ecol $underline "$ROLL"		#       30
+  ecol $blue "."			#	  .
   
   # If it's a multi-roll, show our working!
-  [[ "$1" -gt 1 ]] && echo -e " \033[0;90m(${ROLLS[@]})\033[00m" || echo
+  [[ "$1" -gt 1 ]] && ecol $grey " (${ROLLS[*]})" # ( 10 5 15 )
+ 
+  # And a newline for legibility.
+  echo 
 
 }
 
@@ -54,3 +86,5 @@ case $1 in
      # If we get some other crazy input, though, show 'em the usage. 
      *) usage ;;
 esac
+
+# That's all, folks.
